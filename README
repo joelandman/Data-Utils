@@ -1,0 +1,27 @@
+Data::Utils
+
+
+INSTALLATION
+
+To install this module, run the following commands:
+
+	perl Makefile.PL
+	make
+	make test
+	make install
+
+SUPPORT AND DOCUMENTATION
+
+After installing, you can find documentation for this module with the
+perldoc command.
+
+    perldoc Data::Utils
+
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2015 Joe Landman
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
