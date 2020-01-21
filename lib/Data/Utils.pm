@@ -39,7 +39,7 @@ The following constants are declared for general use
 
     true:  syntactic sugar, allowing one if use a somewhat more readable
            code style.  Evaluates to 1.
-           
+
     false: syntactic sugar, allowing one if use a somewhat more readable
            code style.  Evaluates to 0.
 
@@ -47,7 +47,7 @@ The following constants are declared for general use
 
 
 use constant true   => (1==1);
-use constant false  => (1==0);    
+use constant false  => (1==0);
 
 
 =head1 FUNCTIONS
@@ -72,7 +72,7 @@ sub units {
 	  ZB  => 1000*1000*1000*1000*1000*1000*1000,
 	  YB  => 1000*1000*1000*1000*1000*1000*1000*1000
 	 };
-    
+
     $units ->{IEC} = {
 	  order => [qw(B KiB MiB GiB TiB PiB EiB ZiB YiB)],
 	  B   => 1,
@@ -91,28 +91,28 @@ sub units {
 sub size_to_bytes {
     my ($self,$string,$attr)  = @_;
     my $rv;
-    
+
     # %attrs => {debug => true} will turn on debugging
     my $debug;
     $debug	= $attr->{'debug'} if (defined($attr->{'debug'}));
-    
+
     # input string in the form (\d+\.{0,1}\d{0,})\s{0,}([kKMGTPEZY]{0,1}i{0,1}B)
     # return the size in bytes of this string
     my $units	= $self->units();
     $rv	= undef;
     if ($string =~ /(\d+\.{0,1}\d{0,})\s{0,}([kKMGTPEZY]{0,1}i{0,1}B)/)
        {
-	my $scale	= $2;
-	my $value	= $1;
-	my $type	= 'Data';
-	$type	= 'IEC' if ($scale =~ /.iB/i);
-	printf STDERR "D[%i] Data::Utils::size_to_bytes value,scale,type=%s, %s, %s\n",$$,$value,$scale,$type if ($debug);
-	
-	$rv	= $value * $units->{$type}->{$scale};
+		  	my $scale	= $2;
+		  	my $value	= $1;
+		  	my $type	= 'SI';
+		  	$type	= 'IEC' if ($scale =~ /.iB/i);
+		  	printf STDERR "D[%i] Data::Utils::size_to_bytes value,scale,type=%s, %s, %s\n",$$,$value,$scale,$type if ($debug);
+        #printf "val=%f, scale=%s\n",$value,$scale;
+		  	$rv	= $value * $units->{$type}->{$scale};
        }
       elsif ($string =~ /(\d+\.{0,1}\d{0,})/)
        {
-	$rv	= $string;
+				 $rv	= $string;
        }
     return $rv;
 }
@@ -124,12 +124,12 @@ sub bytes_to_size {
     # if $scale is not defined, then set scale to MB
     # if $digits is not defined, then set digits to 3
     $debug	= $attrs->{'debug'} if (defined($attrs->{'debug'}));
-    
+
     $attrs->{digits}	= 3 	if (!$attrs->{digits});
     $attrs->{scale}	= "MB"	if (!$attrs->{scale});
     $type	= "SI";
     $type	= "IEC" if ($attrs->{scale} =~ /.iB/);
-    
+
     my $units	= $self->units();
     my $tmp_rv 	= ($value ? $value/$units->{$type}->{$attrs->{scale}} : 0);
     my $fmt	= "%.".(sprintf '%i',$attrs->{digits})."f %s";
@@ -149,7 +149,7 @@ sub rescale {
     # input string in the form (\d+\.{0,1}\d{0,})\s{0,}([kKMGTPEZY]{0,1}i{0,1}B)
     # return the size in bytes of this string
     my $units	= $self->units();
-    
+
     # %attrs => {debug => true} will turn on debugging
     my $debug;
     $debug	= $attrs->{'debug'} if (defined($attrs->{'debug'}));
@@ -169,7 +169,7 @@ sub autoscale {
     # input string in the form (\d+\.{0,1}\d{0,})\s{0,}([kKMGTPEZY]{0,1}i{0,1}B)
     # return the size in bytes of this string
     my $units	= $self->units();
-    
+
     # %attrs => {debug => true} will turn on debugging
     my $debug;
     $debug	= $attrs->{'debug'} if (defined($attrs->{'debug'}));
@@ -181,7 +181,7 @@ sub autoscale {
 			    ($attrs->{scale} && ($attrs->{units}=~/IEC/i))
 			   );
     printf STDERR "D[%i] Data::Utils::autoscale string,actual,type = %s, %s, %s\n",$$,$string,$actual,$type if ($debug);
-   
+
     # now progressively divide actual by $units->{$type}->{$scale} until we have no more than 3 digits
     # before the decimal
     my @order	= @{$units->{$type}->{order}};
